@@ -15,6 +15,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import javax.swing.*;
 
+/* implements mouseListener */
 public class MouseEventDemo extends JPanel
         implements MouseListener {
     DrawArea blankArea;

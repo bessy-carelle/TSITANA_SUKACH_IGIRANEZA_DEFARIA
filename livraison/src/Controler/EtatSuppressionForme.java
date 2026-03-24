@@ -4,6 +4,8 @@
  */
 package com.mycompany.projetpatron.Controller;
 
+import java.awt.event.MouseEvent;
+
 /**
  *
  * @author tsitana251
@@ -11,7 +13,12 @@ package com.mycompany.projetpatron.Controller;
 public class EtatSuppressionForme implements VueControlleurState{
 
     @Override
-    public void mouseClicked() {
+    public void mouseClicked(MouseEvent m) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent m) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

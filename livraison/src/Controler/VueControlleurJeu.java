@@ -5,12 +5,23 @@
 package com.mycompany.projetpatron.Controller;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import javax.swing.JPanel;
 /**
  *
  * @author tsitana251
  */
-public class VueControlleurJeu implements MouseListener{
-    VueControlleurState myVueController;
+public class VueControlleurJeu  extends JPanel implements MouseListener, MouseMotionListener{
+    public VueControlleurState myVueController;
+    public VueControlleurState etatCourant;
+    public VueControlleurState etatCreationCercle;
+    public VueControlleurState etatCreationRectangle;
+    public VueControlleurState etatSuppressionForme;
+    public VueControlleurState etatDeplacementForme;
+    
+    public void setEtatCourant(VueControlleurState nouvelEtat){
+        this.etatCourant = nouvelEtat;
+    }
     
     public VueControlleurJeu(VueControlleurState myVueController){
         this.myVueController = myVueController;
@@ -18,9 +29,14 @@ public class VueControlleurJeu implements MouseListener{
     
     @Override
     public void mouseClicked(MouseEvent me) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        etatCourant.mouseClicked(me);
     }
-
+    
+    @Override
+    public void mouseMoved(MouseEvent me) {
+        etatCourant.mouseMoved(me);
+    }
+    
     @Override
     public void mousePressed(MouseEvent me) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -40,4 +56,10 @@ public class VueControlleurJeu implements MouseListener{
     public void mouseExited(MouseEvent me) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    @Override
+    public void mouseDragged(MouseEvent me) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }

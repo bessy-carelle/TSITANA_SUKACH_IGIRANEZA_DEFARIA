@@ -4,10 +4,14 @@
  */
 package com.mycompany.projetpatron.Controller;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 /**
  *
  * @author tsitana251
  */
-public interface VueControlleurState {
-    public void mouseClicked();
+public interface VueControlleurState{
+    public void mouseClicked(MouseEvent m);
+    public void mouseMoved(MouseEvent m);
 }

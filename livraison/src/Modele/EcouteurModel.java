@@ -4,19 +4,11 @@
  */
 package com.mycompany.projetpatron.Model;
 
-import java.util.ArrayList;
-
 /**
  *
- * @author tsitana251
+ * @author sukach251
  */
-public class GroupeForme {
-    public ArrayList<Forme> formes = new ArrayList<>();
-    public int getSurfaceTotale(){
-        return 60;
-    }
-    
-    public GroupeForme(){
-    }
+public interface EcouteurModel {
+    void ModeleMisAJour(Object source);
     
 }
