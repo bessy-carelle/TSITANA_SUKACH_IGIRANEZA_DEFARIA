@@ -1,3 +1,8 @@
+/**
+ *
+ * @author defaria241
+ */
+
 public class CommandeQuitter implements Commande {
     private Modele modele;
 

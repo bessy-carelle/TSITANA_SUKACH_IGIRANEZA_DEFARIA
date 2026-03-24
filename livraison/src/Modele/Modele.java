@@ -1,5 +1,12 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+
+import View.Vue;
+
 public class Modele {
     private Object controleurActif;
+    private List<Forme> formes = new ArrayList<>();
     private Stack<Forme> undoStack = new Stack<>();
     private Stack<Forme> redoStack = new Stack<>();
     private Vue vue;
@@ -19,6 +26,11 @@ public class Modele {
     vue.getBouton("Cercle").setEnabled(actives);
     vue.getBouton("Rectangle").setEnabled(actives);
     }
+
+    public List<Forme> getFormes() {
+        return new ArrayList<>(formes);
+    }
+
 
     public Object getControleurActif() {
         return controleurActif;
@@ -50,11 +62,11 @@ public class Modele {
         }
     }
 
-    public void valider(){
+    public void validerAction(){
 
     }
 
-    public void quitter(){
+    public void quitterAction(){
         
     }
 }
