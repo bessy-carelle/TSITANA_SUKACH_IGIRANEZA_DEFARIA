@@ -2,13 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.projetpatron.Model;
+package Model;
 
 /**
  *
- * @author sukach251
+ * @author tsitana251
  */
-public interface EcouteurModel {
-    void ModeleMisAJour(Object source);
-    
+public class JeuFormes {
+    public Forme GroupeForme;
 }

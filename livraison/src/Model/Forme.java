@@ -2,12 +2,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.projetpatron.Model;
+package Model;
 
 /**
  *
  * @author tsitana251
  */
-public class JeuFormes {
-    public Forme GroupeForme;
+public abstract class Forme extends AbstractModeleEcoutable{
+    public String couleur;
+    // pas de couleur ici
+    
+    public Forme(String couleur){
+        this.couleur = couleur;
+    }
 }
