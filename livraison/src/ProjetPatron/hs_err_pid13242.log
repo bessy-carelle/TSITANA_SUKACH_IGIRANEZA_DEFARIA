@@ -1,0 +1,119 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007370853f6a70, pid=13242, tid=13273
+#
+# JRE version: OpenJDK Runtime Environment (21.0.10+7) (build 21.0.10+7-Ubuntu-124.04)
+# Java VM: OpenJDK 64-Bit Server VM (21.0.10+7-Ubuntu-124.04, mixed mode, sharing, tiered, compressed oops, compressed class ptrs, g1 gc, linux-amd64)
+# Problematic frame:
+# V  [libjvm.so+0x5f6a70]  ciTypeFlow::StateVector::apply_one_bytecode(ciBytecodeStream*)+0x70
+#
+# No core dump will be written. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# If you would like to submit a bug report, please visit:
+#   https://bugs.launchpad.net/ubuntu/+source/openjdk-21
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -Dclassworlds.conf=/usr/lib/apache-netbeans/java/maven/bin/m2.conf -Dmaven.home=/usr/lib/apache-netbeans/java/maven -Dlibrary.jansi.path=/usr/lib/apache-netbeans/java/maven/lib/jansi-native -Dmaven.multiModuleProjectDirectory=/media/tsitana251/homelinux/NetBeansProjects/ProjetPatron org.codehaus.plexus.classworlds.launcher.Launcher -Dexec.vmArgs= -Dexec.args=${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs} -Dexec.appArgs= -Dexec.mainClass=com.mycompany.projetpatron.ProjetPatron -Dexec.executable=/usr/lib/jvm/java-21-openjdk-amd64/bin/java -Dmaven.ext.class.path=/usr/lib/apache-netbeans/java/maven-nblib/netbeans-eventspy.jar --no-transfer-progress process-classes org.codehaus.mojo:exec-maven-plugin:3.1.0:exec
+
+Host: Intel(R) Xeon(R) Gold 5220R CPU @ 2.20GHz, 8 cores, 7G, Ubuntu 24.04.4 LTS
+Time: Fri Mar 27 19:26:31 2026 CET elapsed time: 1196.619228 seconds (0d 0h 19m 56s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x000073708015a320):  JavaThread "C2 CompilerThread0" daemon [_thread_in_native, id=13273, stack(0x0000737055d00000,0x0000737055e00000) (1024K)]
+
+
+Current CompileTask:
+C2:1203044 5167   !   4       java.io.BufferedOutputStream::flush (60 bytes)
+
+Stack: [0x0000737055d00000,0x0000737055e00000],  sp=0x0000737055dfc730,  free space=1009k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [libjvm.so+0x5f6a70]  ciTypeFlow::StateVector::apply_one_bytecode(ciBytecodeStream*)+0x70
+V  [libjvm.so+0x5fbff4]  ciTypeFlow::flow_block(ciTypeFlow::Block*, ciTypeFlow::StateVector*, ciTypeFlow::JsrSet*)+0x194
+[timeout occurred during error reporting in step "printing native stack (with source info)"] after 30 s.
+[stop reattempt (retry printing native stack (no source info)) reason: Step time limit reached]
+
+siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x0000000000000032
+
+Registers:
+RAX=0x0000000000000032, RBX=0x0000736fe8509e60, RCX=0x0000000000000003, RDX=0x0000737085fcd704
+RSP=0x0000737055dfc730, RBP=0x0000737055dfc780, RSI=0x0000737055dfc7d0, RDI=0x0000737055dfc7d0
+R8 =0x0000000000000002, R9 =0x000073700700f358, R10=0x000073708015a320, R11=0x0000000000000006
+R12=0x0000736fe84c7e00, R13=0x0000737055dfc7d0, R14=0x0000736fe84c8118, R15=0x0000736fe8509e60
+RIP=0x00007370853f6a70, EFLAGS=0x0000000000010297, CSGSFS=0x002b000000000033, ERR=0x0000000000000006
+  TRAPNO=0x000000000000000e
+
+XMM[0]=0x0000000000000000 0x000000b6000000b6
+XMM[1]=0x0000000000000000 0x00000000000000b6
+XMM[2]=0x0000000400000010 0x0013001200000000
+XMM[3]=0x0000000000000000 0x0000000000040000
+XMM[4]=0x0000736fe8509e08 0x0000736fe85060f0
+XMM[5]=0x0000000000000000 0x000073708015a320
+XMM[6]=0x0000000000000000 0x0000000019afc702
+XMM[7]=0x0000000000000000 0x0000000000000000
+XMM[8]=0x0000736fe847e270 0x0000736fe847e210
+XMM[9]=0x0000000000000000 0x46293e5939a08cea
+XMM[10]=0x0000000000000000 0x4376345785d8a000
+XMM[11]=0x0000736fe847dbb0 0x0000736fe847dc70
+XMM[12]=0x0000736fe847daf0 0x0000736fe847da90
+XMM[13]=0x550c7dc3243185be 0x12835b01d807aa98
+XMM[14]=0xab1c5ed5923f82a4 0x59f111f13956c25b
+XMM[15]=0xe9b5dba5b5c0fbcf 0x71374491428a2f98
+  MXCSR=0x00001fa2
+
+
+Register to memory mapping:
+
+RAX=0x0000000000000032 is an unknown value
+RBX=0x0000736fe8509e60 points into unknown readable memory: 0x0000736fe84c7db0 | b0 7d 4c e8 6f 73 00 00
+RCX=0x0000000000000003 is an unknown value
+RDX=0x0000737085fcd704: <offset 0x00000000011cd704> in /usr/lib/jvm/java-21-openjdk-amd64/lib/server/libjvm.so at 0x0000737084e00000
+RSP=0x0000737055dfc730 is pointing into the stack for thread: 0x000073708015a320
+RBP=0x0000737055dfc780 is pointing into the stack for thread: 0x000073708015a320
+RSI=0x0000737055dfc7d0 is pointing into the stack for thread: 0x000073708015a320
+RDI=0x0000737055dfc7d0 is pointing into the stack for thread: 0x000073708015a320
+R8 =0x0000000000000002 is an unknown value
+R9 =0x000073700700f358 is a pointer to class: 
+java.io.BufferedOutputStream {0x000073700700f358}
+ - instance size:     5
+ - klass size:        81
+ - access:            public synchronized 
+ - flags:             rewritten has_nonstatic_fields is_shared_boot_class has_localvariable_table 
+ - state:             fully_initialized
+ - name:              'java/io/BufferedOutputStream'
+ - super:             'java/io/FilterOutputStream'
+ - sub:               'java/lang/ProcessImpl$ProcessPipeOutputStream'   
+ - arrays:            null
+ - methods:           Array<T>(0x000073700762e500)
+ - method ordering:   Array<T>(0x000073700762e588)
+ - local interfaces:  Array<T>(0x0000737007619990)
+ - trans. interfaces: Array<T>(0x000073700762e568)
+ - secondary supers: Array<T>(0x000073700762dff0)
+ - hash_slot:         55
+ - bitmap:            0x0800000000800002
+ - constants:         constant pool [149] {0x000073700762e010} for 'java/io/BufferedOutputStream' cache=0x0000737007451ed0
+ - class loader data:  loader data: 0x00007370801286b0 of 'bootstrap'
+ - source file:       'BufferedOutputStream.java'
+ - inner classes:     Array<T>(0x0000737007619918)
+ - nest members:     Array<T>(0x0000737007619918)
+ - permitted subclasses:     Array<T>(0x0000737007619918)
+ - java mirror:       a 'java/lang/Class'{0x00000000ffe8d000} = 'java/io/BufferedOutputStream'
+ - vtable length      10  (start addr: 0x000073700700f528)
+ - itable length      11 (start addr: 0x000073700700f578)
+ - ---- static fields (1 words):
+ - private static final 'DEFAULT_INITIAL_BUFFER_SIZE' 'I' @112 
+ - private static final 'DEFAULT_MAX_BUFFER_SIZE' 'I' @116 
+ - ---- non-static fields (7 words):
+ - private volatile 'closed' 'Z' @12 
+ - protected 'out' 'Ljava/io/OutputStream;' @16 
+ - private final 'closeLock' 'Ljava/lang/Object;' @20 
+ - protected 'count' 'I' @24 
+ - private final 'maxBufSize' 'I' @28 
+ - private final 'lock' 'Ljdk/internal/misc/InternalLock;' @32 
+ - protected 'buf' '
+[timeout occurred during error reporting in step "printing register info"] after 30 s.
+
+[timeout occurred during error reporting in step "printing register info, attempt 2
