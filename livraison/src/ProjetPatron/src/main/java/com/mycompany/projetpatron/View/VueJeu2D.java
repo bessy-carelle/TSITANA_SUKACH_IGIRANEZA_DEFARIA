@@ -31,6 +31,8 @@ public class VueJeu2D extends JPanel implements EcouteurModele{
         setOpaque(false);  // Pas de fond opaque pour VueJeu2D, donc on verra le fond rouge derrière
         circle.ajoutEcouteurModele(this); 
         rectangle.ajoutEcouteurModele(this); 
+        circle.formes.ajoutEcouteurModele(this); 
+        rectangle.formes.ajoutEcouteurModele(this);
     }
 
     @Override
@@ -52,12 +54,13 @@ public class VueJeu2D extends JPanel implements EcouteurModele{
         }
         ArrayList formes = circle.formes.getFormes();
         for (int i = 0; i < formes.size(); i++) {
-            Cercle monCercle = (Cercle) formes.get(i);
+        Cercle monCercle = (Cercle) formes.get(i);
+        if (monCercle.active) { 
             int x  = (int) monCercle.getCentre().x;
             int y  = (int) monCercle.getCentre().y;
             int rayon = (int) monCercle.getRayon();
             g.drawOval(x - rayon, y - rayon, 2 * rayon, 2 * rayon);
-     
+            }
         }
         
         // rectangle
@@ -84,12 +87,13 @@ public class VueJeu2D extends JPanel implements EcouteurModele{
         ArrayList formes_rectangles = rectangle.formes.getFormes();
         for (int i = 0; i < formes_rectangles.size(); i++) {
             Rectangle monRectangle = (Rectangle) formes_rectangles.get(i);
-            int x  = (int) monRectangle.getCoinRectangle().x;
-            int y  = (int) monRectangle.getCoinRectangle().y;
-            int width = (int) monRectangle.getWidth();
-            int height = (int) monRectangle.getHeight();
-            g.drawRect(x, y, width, height);
-     
+            if (monRectangle.active){
+                int x  = (int) monRectangle.getCoinRectangle().x;
+                int y  = (int) monRectangle.getCoinRectangle().y;
+                int width = (int) monRectangle.getWidth();
+                int height = (int) monRectangle.getHeight();
+                g.drawRect(x, y, width, height);
+            }
         }
     }
 

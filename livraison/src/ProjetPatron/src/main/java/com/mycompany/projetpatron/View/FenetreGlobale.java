@@ -16,6 +16,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import com.mycompany.projetpatron.Controller.Command.GestionnaireCommandes;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -26,6 +28,10 @@ public class FenetreGlobale extends JFrame implements ActionListener{
     public VueControlleurJeu controlleurJeu;
     private JButton bouttonCercle;
     private JButton bouttonRectangle;
+    private JButton bouttonUndo;      
+    private JButton bouttonRedo;      
+    private JButton bouttonValider;   
+    private JButton bouttonQuitter;   
     private JLabel drawArea;
     
     public VueControlleurState etatCreationCercle;
@@ -62,6 +68,20 @@ public class FenetreGlobale extends JFrame implements ActionListener{
         
         frame.add(ButtonContainer, BorderLayout.NORTH);        // frame.add(mouseContainer, BorderLayout.SOUTH);
         
+        bouttonUndo = new JButton("Undo");
+        bouttonRedo = new JButton("Redo");
+        bouttonValider = new JButton("Valider");
+        bouttonQuitter = new JButton("Quitter");
+
+        ButtonContainer.add(bouttonUndo);
+        ButtonContainer.add(bouttonRedo);
+        ButtonContainer.add(bouttonValider);
+        ButtonContainer.add(bouttonQuitter);
+
+        bouttonUndo.addActionListener(this);
+        bouttonRedo.addActionListener(this);
+        bouttonValider.addActionListener(this);
+        bouttonQuitter.addActionListener(this);
         
         
         frame.setSize(DIM, DIM);
@@ -75,6 +95,18 @@ public class FenetreGlobale extends JFrame implements ActionListener{
         }
         if(ae.getSource() == bouttonRectangle){
             controlleurJeu.setEtatCourant(etatCreationRectangle);
+        }
+        if (ae.getSource() == bouttonUndo) {
+            GestionnaireCommandes.getInstance().undo();
+        }
+        if (ae.getSource() == bouttonRedo) {
+            GestionnaireCommandes.getInstance().redo();
+        }
+        if (ae.getSource() == bouttonValider) {
+            JOptionPane.showMessageDialog(null, "Score validé !");
+        }
+        if (ae.getSource() == bouttonQuitter) {
+            System.exit(0);
         }
     }
 }

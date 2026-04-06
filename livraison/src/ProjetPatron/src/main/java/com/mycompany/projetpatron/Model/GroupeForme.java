@@ -26,6 +26,10 @@ public class GroupeForme extends AbstractModeleEcoutable implements EcouteurMode
         fireChangement();
     }
     
+    public void notifierChangement() {
+        fireChangement();
+    }
+    
     @Override
     public void modeleMisAJour(Object source) {
         //fireChangement();

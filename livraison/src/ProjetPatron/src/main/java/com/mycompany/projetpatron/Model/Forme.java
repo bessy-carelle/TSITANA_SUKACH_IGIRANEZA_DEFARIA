@@ -8,7 +8,9 @@ package com.mycompany.projetpatron.Model;
  *
  * @author tsitana251
  */
+
 public abstract class Forme extends AbstractModeleEcoutable{
+    public boolean active = true;
     public String couleur;
     // pas de couleur ici
     

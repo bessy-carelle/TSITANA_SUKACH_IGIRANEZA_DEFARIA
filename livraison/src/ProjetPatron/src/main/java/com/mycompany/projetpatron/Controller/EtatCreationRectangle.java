@@ -10,6 +10,9 @@ import com.mycompany.projetpatron.Model.Forme;
 import com.mycompany.projetpatron.Model.GroupeForme;
 import com.mycompany.projetpatron.Model.Point;
 import com.mycompany.projetpatron.Model.Rectangle;
+import com.mycompany.projetpatron.Controller.Command.Command;
+import com.mycompany.projetpatron.Controller.Command.CommandAjoutForme;
+import com.mycompany.projetpatron.Controller.Command.GestionnaireCommandes;
 import java.awt.event.MouseEvent;
 
 /**
@@ -64,7 +67,8 @@ public class EtatCreationRectangle extends AbstractModeleEcoutable implements Vu
         if(rectangleDone == 1){
           System.out.println("creation nouveau rect");
              Rectangle ancienRectangle = new Rectangle(coinRectangle, largeur, hauteur);
-             formes.ajoutForme(ancienRectangle);
+             Command cmd = new CommandAjoutForme(formes, ancienRectangle);
+             GestionnaireCommandes.getInstance().executerCommande(cmd);
              coinRectangle = null;
              largeur = 0;
              hauteur=0;

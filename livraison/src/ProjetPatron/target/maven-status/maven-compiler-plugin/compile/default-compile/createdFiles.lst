@@ -1,9 +1,12 @@
+com/mycompany/projetpatron/Controller/Command/GestionnaireCommandes.class
 com/mycompany/projetpatron/Controller/EtatSuppressionForme.class
 com/mycompany/projetpatron/Model/GroupeForme.class
 com/mycompany/projetpatron/Controller/VueControlleurJeu.class
+com/mycompany/projetpatron/Controller/Command/CommandAjoutForme.class
+com/mycompany/projetpatron/Controller/Command/Command.class
 com/mycompany/projetpatron/Controller/EtatDeplacementForme.class
-com/mycompany/projetpatron/View/VueGroupeFormesArea.class
 com/mycompany/projetpatron/Model/Cercle.class
+com/mycompany/projetpatron/View/VueGroupeFormesArea.class
 com/mycompany/projetpatron/Model/Forme.class
 com/mycompany/projetpatron/View/VueJeu2D.class
 com/mycompany/projetpatron/Controller/EtatCreationRectangle.class

@@ -8,6 +8,9 @@ import com.mycompany.projetpatron.Model.AbstractModeleEcoutable;
 import com.mycompany.projetpatron.Model.Cercle;
 import com.mycompany.projetpatron.Model.GroupeForme;
 import com.mycompany.projetpatron.Model.Point;
+import com.mycompany.projetpatron.Controller.Command.Command;
+import com.mycompany.projetpatron.Controller.Command.CommandAjoutForme;
+import com.mycompany.projetpatron.Controller.Command.GestionnaireCommandes;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 
@@ -41,7 +44,8 @@ public class EtatCreationCercle extends AbstractModeleEcoutable implements VueCo
         if(cercleDone == 1){
           System.out.println("creation nouveau cercle");
              Cercle ancienCercle = new Cercle(centre, (int) rayon);
-             formes.ajoutForme(ancienCercle);
+             Command cmd = new CommandAjoutForme(formes, ancienCercle);
+             GestionnaireCommandes.getInstance().executerCommande(cmd);
              centre = null;
              rayon = 0.0;
              cercleDone=0;
