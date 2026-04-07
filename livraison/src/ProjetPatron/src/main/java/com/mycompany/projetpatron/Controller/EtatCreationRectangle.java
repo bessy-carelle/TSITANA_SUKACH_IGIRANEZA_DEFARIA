@@ -4,16 +4,15 @@
  */
 package com.mycompany.projetpatron.Controller;
 
-import com.mycompany.projetpatron.Model.AbstractModeleEcoutable;
-import com.mycompany.projetpatron.Model.Cercle;
-import com.mycompany.projetpatron.Model.Forme;
-import com.mycompany.projetpatron.Model.GroupeForme;
-import com.mycompany.projetpatron.Model.Point;
-import com.mycompany.projetpatron.Model.Rectangle;
+import java.awt.event.MouseEvent;
+
 import com.mycompany.projetpatron.Controller.Command.Command;
 import com.mycompany.projetpatron.Controller.Command.CommandAjoutForme;
 import com.mycompany.projetpatron.Controller.Command.GestionnaireCommandes;
-import java.awt.event.MouseEvent;
+import com.mycompany.projetpatron.Model.AbstractModeleEcoutable;
+import com.mycompany.projetpatron.Model.GroupeForme;
+import com.mycompany.projetpatron.Model.Point;
+import com.mycompany.projetpatron.Model.Rectangle;
 
 /**
  *
