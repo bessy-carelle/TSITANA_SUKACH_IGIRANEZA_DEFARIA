@@ -4,20 +4,25 @@
  */
 package com.mycompany.projetpatron.View;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import com.mycompany.projetpatron.Controller.Command.GestionnaireCommandes;
 import com.mycompany.projetpatron.Controller.EtatCreationCercle;
 import com.mycompany.projetpatron.Controller.EtatCreationRectangle;
 import com.mycompany.projetpatron.Controller.VueControlleurJeu;
 import com.mycompany.projetpatron.Controller.VueControlleurState;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-import com.mycompany.projetpatron.Controller.Command.GestionnaireCommandes;
-import javax.swing.JOptionPane;
+import com.mycompany.projetpatron.Model.JeuFormes;
 
 /**
  *
@@ -39,7 +44,7 @@ public class FenetreGlobale extends JFrame implements ActionListener{
     public VueControlleurState etatSuppressionForme;
     public VueControlleurState etatDeplacementForme;
     
-    public FenetreGlobale(VueControlleurJeu controlleurJeu, VueControlleurState etatCreationCercle, VueControlleurState etatCreationRectangle){
+    public FenetreGlobale(VueControlleurJeu controlleurJeu, VueControlleurState etatCreationCercle, VueControlleurState etatCreationRectangle,JeuFormes jeu){
         this.controlleurJeu = controlleurJeu;
         this.etatCreationCercle = etatCreationCercle;
         this.etatCreationRectangle = etatCreationRectangle;
@@ -53,9 +58,10 @@ public class FenetreGlobale extends JFrame implements ActionListener{
         drawArea.setLayout(new BorderLayout());
         drawArea.setOpaque(true);
         drawArea.add(new VueJeu2D((EtatCreationCercle) etatCreationCercle,
-                (EtatCreationRectangle) etatCreationRectangle        
+                (EtatCreationRectangle) etatCreationRectangle,jeu      
         ), BorderLayout.CENTER);
-        frame.add(drawArea, BorderLayout.SOUTH);
+        //frame.add(drawArea, BorderLayout.SOUTH);
+        frame.add(drawArea, BorderLayout.CENTER);
         
         drawArea.addMouseListener(controlleurJeu);
         drawArea.addMouseMotionListener(controlleurJeu); 
