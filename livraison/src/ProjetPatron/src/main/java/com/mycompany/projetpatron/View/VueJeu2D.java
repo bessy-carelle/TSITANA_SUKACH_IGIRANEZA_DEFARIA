@@ -37,7 +37,7 @@ public class VueJeu2D extends JPanel implements EcouteurModele {
     @Override
     public void paintComponent(Graphics g) {
 
-        // 1. obstacles rouges
+        // obstacles rouges
         if (jeu != null && jeu.getObstacles() != null) {
             g.setColor(java.awt.Color.RED);
             for (Forme f : jeu.getObstacles().getFormes()) {

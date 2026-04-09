@@ -19,7 +19,7 @@ public class ProjetPatron {
 
    public static void main(String[] args) {
       int borneMaxX= 600;
-      int borneMaxY = 500;
+      int borneMaxY = 400;
 
       System.out.println("___Project Start____");
 

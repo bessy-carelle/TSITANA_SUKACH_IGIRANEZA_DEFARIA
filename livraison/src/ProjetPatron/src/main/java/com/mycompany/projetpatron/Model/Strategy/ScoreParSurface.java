@@ -6,30 +6,51 @@ import com.mycompany.projetpatron.Model.GroupeForme;
 import com.mycompany.projetpatron.Model.Rectangle;
 
 public class ScoreParSurface implements CalculScore {
-
+    private static final int MAX_FORMES = 4;
     @Override
     public double calculer(GroupeForme formesBleues, GroupeForme formesRouges) {
         double score = 0;
+        int compteur = 0;
 
 
         for (Forme bleue : formesBleues.getFormes()) {
             if (!bleue.active) continue;
+            if (compteur >= MAX_FORMES) break;
+            compteur ++;
+
 
             boolean enCollision = false;
             for (Forme rouge : formesRouges.getFormes()) {
                 if (collision(bleue, rouge)) {
                     enCollision = true;
-                    break; 
+                    break;
                 }
             }
             if (!enCollision) {
-                score+= surface(bleue);
+                score ++;
             }
         }
         return score;
     }
 
-    //calcul du score en pourcentage pour un joueur
+
+    public String calculerResultat(GroupeForme formesBleues, GroupeForme formesRouges) {
+        int valides = (int) calculer(formesBleues, formesRouges);
+        int total = Math.min(4, (int) formesBleues.getFormes().stream().filter(f -> f.active).count());
+        return valides + "/" + total + " formes bien placées";
+    }
+
+    /**calcul du score en pourcentage pour un joueur
+     public int calculerPourcentage(GroupeForme formesBleues, GroupeForme formesRouges,
+                                    int largeur, int hauteur) {
+        double surfacePlateau = largeur * hauteur;
+        double surfaceBleueValide = calculer(formesBleues, formesRouges);
+
+        // score = surface bleue valide / surface totale du plateau * 100
+        double scoreJoueur = (surfaceBleueValide / surfacePlateau) * 100;
+        return (int) Math.min(100, Math.floor(scoreJoueur)); // jamais > 100%
+    }**/
+    /** 
     public int calculerPourcentage(GroupeForme formesBleues, GroupeForme formesRouges, int largeur, int hauteur) {
         double surfaceFenetre = largeur * hauteur;
 
@@ -53,7 +74,7 @@ public class ScoreParSurface implements CalculScore {
         double scoreJoueur = (surfaceBleueValide / surfaceDisponible) * 100;
         return (int) Math.floor(scoreJoueur);
     }
-
+    **/
 
     private boolean collision(Forme a, Forme b) {
 

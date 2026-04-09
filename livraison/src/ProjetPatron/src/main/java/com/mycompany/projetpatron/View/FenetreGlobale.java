@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -86,6 +87,7 @@ public class FenetreGlobale extends JFrame implements ActionListener{
         bouttonUndo = new JButton("Undo");
         bouttonRedo = new JButton("Redo");
         bouttonValider = new JButton("Valider");
+
         bouttonQuitter = new JButton("Quitter");
 
         ButtonContainer.add(bouttonUndo);
@@ -118,20 +120,58 @@ public class FenetreGlobale extends JFrame implements ActionListener{
         }
         if (ae.getSource() == bouttonRedo) {
             GestionnaireCommandes.getInstance().redo();
+
         }
-        if (ae.getSource() == bouttonValider) {
-            JOptionPane.showMessageDialog(null, "Score validé !");
-            rafraichirScore();
-        }
+
         if (ae.getSource() == bouttonQuitter) {
             System.exit(0);
         }
-    }
 
-   private void rafraichirScore() {
-    int score = jeu.calculerPourcentage(borneMaxX, borneMaxY);
-    labelScore.setText("Espace libre rempli : " + score + "%");
-    JOptionPane.showMessageDialog(this,
-        "Yess!!! Vous avez rempli " + score + "% de l'espace disponible.");
+        if (ae.getSource() == bouttonValider) {
+            int scorePartie = (int) jeu.calculerScore();
+            boolean fin = jeu.validerPartie(borneMaxX, borneMaxY);
+
+            if (fin) {
+                StringBuilder recap = new StringBuilder();
+                recap.append("=== PARTIE TERMINÉE ===\n\n");
+
+                List<Integer> scores = jeu.getScores();
+                for (int i = 0; i < scores.size(); i++) {
+                    recap.append("Partie ").append(i + 1)
+                        .append(" : ").append(scores.get(i)).append("/4\n");
+
+                    if (scores.get(i) == 4) recap.append("Top! Toutes les formes bien placées!!");
+                    else if (scores.get(i) == 0) recap.append("Raté!!");
+                    recap.append("\n");
+                }
+                recap.append("\n─────────────────────\n");
+                recap.append("Score global : ").append(jeu.getMoyennePourcentage()).append("%\n");
+
+                recap.append("Moyenne : ")
+                    .append(String.format("%.1f", jeu.getMoyenne())).append("/4");
+                
+                JOptionPane.showMessageDialog(this, recap.toString(), 
+                    "Résultats finaux", JOptionPane.INFORMATION_MESSAGE);
+                labelScore.setText("Score global : " + jeu.getMoyennePourcentage() + "%");
+                
+            } else {
+                // affiche le score de cette partie et lance la suivante
+                String msg = "Partie " + jeu.getNumeroPartie() + "/" + jeu.getTotalParties() + "\n" +
+                            "Score : " + scorePartie + "/4 formes valides\n\n" +
+                            "Prochaine partie...";
+                JOptionPane.showMessageDialog(this, msg,
+                    "Score partie " + jeu.getNumeroPartie(), JOptionPane.INFORMATION_MESSAGE);
+                
+                // met à jour le label
+                labelScore.setText("Partie " + (jeu.getNumeroPartie() + 1) + 
+                                "/" + jeu.getTotalParties() +
+                                "  |  Dernier score : " + scorePartie + "/4");
+                
+                // lance automatiquement la partie suivante
+                jeu.demarrerPartie(borneMaxX, borneMaxY);
+            }
+    
+      
+        }
     }
 }
