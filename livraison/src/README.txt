@@ -1,5 +1,9 @@
-code ici
 execution du code :
-    compiler: javac com/mycompany/projetpatron/ProjetPatron.java
-    executer : java com.mycompany.projetpatron.ProjetPatron
+- importer ProjetPatron comme projet JAVA Net Beans
+- Lancer le projet
+ 
+ ou
+
+- compiler: javac com/mycompany/projetpatron/ProjetPatron.java
+- executer : java com.mycompany.projetpatron.ProjetPatron
 
