@@ -4,16 +4,15 @@
  */
 package com.mycompany.projetpatron.Controller;
 
-import com.mycompany.projetpatron.Model.AbstractModeleEcoutable;
-import com.mycompany.projetpatron.Model.Cercle;
-import com.mycompany.projetpatron.Model.Forme;
-import com.mycompany.projetpatron.Model.GroupeForme;
-import com.mycompany.projetpatron.Model.Point;
-import com.mycompany.projetpatron.Model.Rectangle;
+import java.awt.event.MouseEvent;
+
 import com.mycompany.projetpatron.Controller.Command.Command;
 import com.mycompany.projetpatron.Controller.Command.CommandAjoutForme;
 import com.mycompany.projetpatron.Controller.Command.GestionnaireCommandes;
-import java.awt.event.MouseEvent;
+import com.mycompany.projetpatron.Model.AbstractModeleEcoutable;
+import com.mycompany.projetpatron.Model.JeuFormes;
+import com.mycompany.projetpatron.Model.Point;
+import com.mycompany.projetpatron.Model.Rectangle;
 
 /**
  *
@@ -25,7 +24,11 @@ public class EtatCreationRectangle extends AbstractModeleEcoutable implements Vu
     public int hauteur;
     private int rectangleDone = 0;
     private double diagonale;
-    public GroupeForme formes = new GroupeForme();
+    private JeuFormes jeu;
+
+    public EtatCreationRectangle(JeuFormes jeu) { 
+        this.jeu = jeu;
+    }
 
     public Point getCoinRectangle() {
         return coinRectangle;
@@ -67,13 +70,14 @@ public class EtatCreationRectangle extends AbstractModeleEcoutable implements Vu
         if(rectangleDone == 1){
           System.out.println("creation nouveau rect");
              Rectangle ancienRectangle = new Rectangle(coinRectangle, largeur, hauteur);
-             Command cmd = new CommandAjoutForme(formes, ancienRectangle);
+             ancienRectangle.couleur = "BLEU";
+             Command cmd = new CommandAjoutForme(jeu.getFormesDuJoueur(), ancienRectangle);             
              GestionnaireCommandes.getInstance().executerCommande(cmd);
              coinRectangle = null;
              largeur = 0;
              hauteur=0;
              rectangleDone = 0;
-             fireChangement();
+             jeu.notifierVue();
          }
     }
 
