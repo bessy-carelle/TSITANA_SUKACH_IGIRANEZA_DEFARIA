@@ -27,15 +27,20 @@ public class FormeRandomStrategy implements GenerationStrategy{
         for (int i = 0; i < nbFormes; i++) {
             if (aleatoire.nextBoolean()) {
                 int rayon = 20 + aleatoire.nextInt(40);
-                // garde au moins rayon de marge sur chaque bord
                 int xMin = rayon;
                 int xMax = borneMaxX - rayon;
                 int yMin = rayon;
                 int yMax = borneMaxY - rayon;
-                // sécurité si la fenêtre est trop petite
-                if (xMax <= xMin || yMax <= yMin) continue;
+                System.out.println("Cercle → xMin=" + xMin + " xMax=" + xMax + " yMin=" + yMin + " yMax=" + yMax);
+                if (xMax <= xMin || yMax <= yMin) {
+                    System.out.println("SKIP cercle — fenêtre trop petite !");
+                    continue;
+                }
                 int x = xMin + aleatoire.nextInt(xMax - xMin);
                 int y = yMin + aleatoire.nextInt(yMax - yMin);
+
+                System.out.println("Cercle placé en (" + x + ", " + y + ") rayon=" + rayon);
+
                 Cercle c = new Cercle(new Point(x, y), rayon);
                 c.couleur = "ROUGE";
                 groupe.ajoutForme(c);
@@ -44,9 +49,19 @@ public class FormeRandomStrategy implements GenerationStrategy{
                 int height = 30 + aleatoire.nextInt(80);
                 int xMax = borneMaxX - width;
                 int yMax = borneMaxY - height;
-                if (xMax <= 0 || yMax <= 0) continue;
+
+                System.out.println("Rect → xMax=" + xMax + " yMax=" + yMax + " w=" + width + " h=" + height);
+
+                if (xMax <= 0 || yMax <= 0){
+                    System.out.println("SKIP rect — fenêtre trop petite !");
+                    continue;
+
+                } 
                 int x = aleatoire.nextInt(xMax);
                 int y = aleatoire.nextInt(yMax);
+
+                System.out.println("Rect placé en (" + x + ", " + y + ")");
+
                 Rectangle r = new Rectangle(new Point(x, y), width, height);
                 r.couleur = "ROUGE";
                 groupe.ajoutForme(r);
@@ -57,45 +72,6 @@ public class FormeRandomStrategy implements GenerationStrategy{
 }
 
 
-
-
-
-
-
-
-/* 
-    @Override
-    public GroupeForme generer(int borneMaxX,int borneMaxY){
-        GroupeForme groupe = new GroupeForme();
-        Random aleatoire = new Random();
-
-        for (int i=0; i<nbFormes ; i++){
-
-            if (aleatoire.nextBoolean()){
-                int rayon = 20 + aleatoire.nextInt(40);
-                int x = rayon + aleatoire.nextInt(borneMaxX * rayon);
-                int y = rayon + aleatoire.nextInt(borneMaxY * rayon);
-                Cercle c = new Cercle(new Point(x, y), rayon);
-                c.couleur = "ROUGE";
-                groupe.ajoutForme(c);
-
-            }else{
-                int width = 30 + aleatoire.nextInt(60);
-                int height = 30 + aleatoire.nextInt(80);
-                int x = aleatoire.nextInt(borneMaxX- width);
-                int y = aleatoire.nextInt(borneMaxY - height);
-                Rectangle r = new Rectangle(new Point(x, y), width,height);
-                r.couleur = "ROUGE";
-
-                groupe.ajoutForme(r);
-
-            }
-        }
-        return groupe;
-
-
-    }
-*/
 
 
 

@@ -42,7 +42,7 @@ public class JeuFormes extends AbstractModeleEcoutable {
         this.formesJoueur = new GroupeForme(); 
         fireChangement();
 
-        timerObstacles = new Timer(10000, e -> {
+        timerObstacles = new Timer(30000, e -> {
         // on cache les obstacles SANS les supprimer
         for (Forme f : obstacles.getFormes()) {
             f.active = false; 

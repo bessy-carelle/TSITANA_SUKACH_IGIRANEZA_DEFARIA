@@ -11,6 +11,7 @@ import com.mycompany.projetpatron.Model.JeuFormes;
 import com.mycompany.projetpatron.Model.Strategy.FormeRandomStrategy;
 import com.mycompany.projetpatron.View.FenetreGlobale;
 
+
 /**
  *
  * @author tsitana251
@@ -18,19 +19,15 @@ import com.mycompany.projetpatron.View.FenetreGlobale;
 public class ProjetPatron {
 
    public static void main(String[] args) {
-      int borneMaxX= 600;
-      int borneMaxY = 400;
-
-      System.out.println("___Project Start____");
-
-      JeuFormes jeu = new JeuFormes();
-      jeu.setGenerationStrategy(new FormeRandomStrategy(7));
-      jeu.demarrerPartie(borneMaxX,borneMaxY);
-
-      VueControlleurJeu controleur = new VueControlleurJeu();
-      EtatCreationCercle etatCercle = new EtatCreationCercle(jeu);
-      EtatCreationRectangle etatRect = new EtatCreationRectangle(jeu);
-
-      new FenetreGlobale(controleur,etatCercle,etatRect,jeu,borneMaxX,borneMaxY);
+        System.out.println("___Project Start____");
+        JeuFormes jeu = new JeuFormes();
+        jeu.setGenerationStrategy(new FormeRandomStrategy(10));
+        
+        VueControlleurJeu controleur = new VueControlleurJeu();
+        EtatCreationCercle etatCercle = new EtatCreationCercle(jeu);
+        EtatCreationRectangle etatRect = new EtatCreationRectangle(jeu);
+        
+        
+        new FenetreGlobale(controleur, etatCercle, etatRect, jeu);
    }
 }

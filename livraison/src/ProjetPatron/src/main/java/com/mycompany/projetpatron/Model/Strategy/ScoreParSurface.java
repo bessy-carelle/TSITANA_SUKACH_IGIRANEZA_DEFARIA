@@ -40,42 +40,7 @@ public class ScoreParSurface implements CalculScore {
         return valides + "/" + total + " formes bien placées";
     }
 
-    /**calcul du score en pourcentage pour un joueur
-     public int calculerPourcentage(GroupeForme formesBleues, GroupeForme formesRouges,
-                                    int largeur, int hauteur) {
-        double surfacePlateau = largeur * hauteur;
-        double surfaceBleueValide = calculer(formesBleues, formesRouges);
-
-        // score = surface bleue valide / surface totale du plateau * 100
-        double scoreJoueur = (surfaceBleueValide / surfacePlateau) * 100;
-        return (int) Math.min(100, Math.floor(scoreJoueur)); // jamais > 100%
-    }**/
-    /** 
-    public int calculerPourcentage(GroupeForme formesBleues, GroupeForme formesRouges, int largeur, int hauteur) {
-        double surfaceFenetre = largeur * hauteur;
-
-        //surface occupée par les obstacles rouges
-        double surfaceObstacles = 0;
-        for (Forme rouge : formesRouges.getFormes()) {
-            if (rouge.active) {
-                surfaceObstacles += surface(rouge);
-            }
-        }
-
-        // surface libre hors obstacles 
-        double surfaceDisponible = surfaceFenetre - surfaceObstacles;
-
-        // surface valide où on peut positionner les formes bleues avec 100% de réussite 
-        double surfaceBleueValide = calculer(formesBleues, formesRouges);
-
-        
-        if (surfaceDisponible <= 0) return 0;
-        
-        double scoreJoueur = (surfaceBleueValide / surfaceDisponible) * 100;
-        return (int) Math.floor(scoreJoueur);
-    }
-    **/
-
+   
     private boolean collision(Forme a, Forme b) {
 
         if (a instanceof Cercle && b instanceof Cercle)

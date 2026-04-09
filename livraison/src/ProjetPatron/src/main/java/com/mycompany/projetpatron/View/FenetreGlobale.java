@@ -42,34 +42,33 @@ public class FenetreGlobale extends JFrame implements ActionListener{
     private JeuFormes jeu;
     private int borneMaxX;
     private int borneMaxY;
-    
+
+    public VueJeu2D vueJeu2D;
     public VueControlleurState etatCreationCercle;
     public VueControlleurState etatCreationRectangle;
     public VueControlleurState etatSuppressionForme;
     public VueControlleurState etatDeplacementForme;
     
-    public FenetreGlobale(VueControlleurJeu controlleurJeu, VueControlleurState etatCreationCercle, VueControlleurState etatCreationRectangle,JeuFormes jeu,int largeur, int hauteur){
+    public FenetreGlobale(VueControlleurJeu controlleurJeu, VueControlleurState etatCreationCercle, VueControlleurState etatCreationRectangle,JeuFormes jeu){
         this.controlleurJeu = controlleurJeu;
         this.etatCreationCercle = etatCreationCercle;
         this.etatCreationRectangle = etatCreationRectangle;
         this.jeu = jeu;
-        this.borneMaxX= largeur; 
-        this.borneMaxY = hauteur;
         JFrame frame = new JFrame("panel");
         JPanel ButtonContainer = new JPanel(); 
         labelScore = new JLabel("Espace libre rempli : 0%");
         labelScore.setForeground(Color.BLUE);
         ButtonContainer.add(labelScore);
 
+        this.vueJeu2D = new VueJeu2D((EtatCreationCercle) etatCreationCercle,(EtatCreationRectangle) etatCreationRectangle,jeu);
+
         JPanel drawArea = new JPanel();
-        drawArea.setPreferredSize(new Dimension(DIM, DIM-100)); // Donne une taille au JPanel
-        drawArea.setBackground(Color.WHITE); // Fond rouge pour drawArea
+        drawArea.setPreferredSize(new Dimension(DIM, DIM-100)); 
+        drawArea.setBackground(Color.WHITE); 
         drawArea.setBorder(BorderFactory.createLineBorder(Color.black));
         drawArea.setLayout(new BorderLayout());
         drawArea.setOpaque(true);
-        drawArea.add(new VueJeu2D((EtatCreationCercle) etatCreationCercle,
-                (EtatCreationRectangle) etatCreationRectangle,jeu      
-        ), BorderLayout.CENTER);
+        drawArea.add(this.vueJeu2D, BorderLayout.CENTER); 
         //frame.add(drawArea, BorderLayout.SOUTH);
         frame.add(drawArea, BorderLayout.CENTER);
         
@@ -82,7 +81,7 @@ public class FenetreGlobale extends JFrame implements ActionListener{
         bouttonRectangle.addActionListener(this);
         bouttonCercle.addActionListener(this);    
         
-        frame.add(ButtonContainer, BorderLayout.NORTH);        // frame.add(mouseContainer, BorderLayout.SOUTH);
+        frame.add(ButtonContainer, BorderLayout.NORTH);       
         
         bouttonUndo = new JButton("Undo");
         bouttonRedo = new JButton("Redo");
@@ -100,9 +99,21 @@ public class FenetreGlobale extends JFrame implements ActionListener{
         bouttonValider.addActionListener(this);
         bouttonQuitter.addActionListener(this);
         
-        
+    
         frame.setSize(DIM, DIM);
-        frame.show();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+
+        //ce bloc nous permet d avoir la taille de la fenetre pour le bon positionnement des formes rouges pour bien les dispatcher sur tout le plateau
+        
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            int largeur = vueJeu2D.getWidth();
+            int hauteur = vueJeu2D.getHeight();
+            System.out.println("Taille réelle VueJeu2D : " + largeur + "x" + hauteur);
+            this.borneMaxX = largeur;
+            this.borneMaxY = hauteur;
+            jeu.demarrerPartie(largeur, hauteur);
+        });
     }
     
 
@@ -153,22 +164,20 @@ public class FenetreGlobale extends JFrame implements ActionListener{
                 JOptionPane.showMessageDialog(this, recap.toString(), 
                     "Résultats finaux", JOptionPane.INFORMATION_MESSAGE);
                 labelScore.setText("Score global : " + jeu.getMoyennePourcentage() + "%");
-                
+
             } else {
-                // affiche le score de cette partie et lance la suivante
                 String msg = "Partie " + jeu.getNumeroPartie() + "/" + jeu.getTotalParties() + "\n" +
                             "Score : " + scorePartie + "/4 formes valides\n\n" +
                             "Prochaine partie...";
                 JOptionPane.showMessageDialog(this, msg,
                     "Score partie " + jeu.getNumeroPartie(), JOptionPane.INFORMATION_MESSAGE);
                 
-                // met à jour le label
+                
                 labelScore.setText("Partie " + (jeu.getNumeroPartie() + 1) + 
                                 "/" + jeu.getTotalParties() +
                                 "  |  Dernier score : " + scorePartie + "/4");
                 
-                // lance automatiquement la partie suivante
-                jeu.demarrerPartie(borneMaxX, borneMaxY);
+                jeu.demarrerPartie(vueJeu2D.getWidth(), vueJeu2D.getHeight());
             }
     
       
