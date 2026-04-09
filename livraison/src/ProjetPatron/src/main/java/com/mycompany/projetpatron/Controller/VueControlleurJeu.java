@@ -6,6 +6,7 @@ package com.mycompany.projetpatron.Controller;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+
 import javax.swing.JPanel;
 /**
  *
@@ -15,10 +16,8 @@ public class VueControlleurJeu  extends JPanel implements MouseListener, MouseMo
     
     public VueControlleurState etatCourant;
     
-    public VueControlleurState etatCreationCercle = new EtatCreationCercle();
-    public VueControlleurState etatCreationRectangle  = new EtatCreationRectangle();
-    public VueControlleurState etatSuppressionForme;
-    public VueControlleurState etatDeplacementForme;
+    /**public VueControlleurState etatSuppressionForme;
+    public VueControlleurState etatDeplacementForme; **/
     
     public void setEtatCourant(VueControlleurState nouvelEtat){
        this.etatCourant = nouvelEtat;

@@ -4,7 +4,11 @@
  */
 package com.mycompany.projetpatron.Model;
 
+import javax.swing.Timer;
+
+import com.mycompany.projetpatron.Model.Strategy.CalculScore;
 import com.mycompany.projetpatron.Model.Strategy.GenerationStrategy;
+import com.mycompany.projetpatron.Model.Strategy.ScoreParSurface;
 
 
 public class JeuFormes extends AbstractModeleEcoutable {
@@ -12,6 +16,9 @@ public class JeuFormes extends AbstractModeleEcoutable {
     private GenerationStrategy generationStrategy;
     private GroupeForme formesJoueur;   //formes bleues
     private GroupeForme obstacles;        //formes rouges
+    private CalculScore calculScoreStrategy;
+    private Timer timerObstacles;
+    private CalculScore calculScore = new ScoreParSurface(); 
 
     public JeuFormes(){
         this.formesJoueur = new GroupeForme();
@@ -27,6 +34,17 @@ public class JeuFormes extends AbstractModeleEcoutable {
         this.formesJoueur = new GroupeForme(); 
         fireChangement();
 
+        timerObstacles = new Timer(5000, e -> {
+        // on cache les obstacles SANS les supprimer
+        for (Forme f : obstacles.getFormes()) {
+            f.active = false; 
+        }
+        fireChangement();
+        timerObstacles.stop();
+    });
+    timerObstacles.setRepeats(false);
+    timerObstacles.start();
+
     }
 
     public GroupeForme getObstacles() { 
@@ -37,4 +55,15 @@ public class JeuFormes extends AbstractModeleEcoutable {
         return formesJoueur; 
     }
 
+    public double calculerScore() {
+        return calculScore.calculer(formesJoueur, obstacles);
+    }
+
+    public int calculerPourcentage(int largeur, int hauteur) {
+        return ((ScoreParSurface) calculScore).calculerPourcentage(formesJoueur, obstacles, largeur, hauteur);
+    }
+
+    public void notifierVue() {
+        fireChangement();
+    }
 }

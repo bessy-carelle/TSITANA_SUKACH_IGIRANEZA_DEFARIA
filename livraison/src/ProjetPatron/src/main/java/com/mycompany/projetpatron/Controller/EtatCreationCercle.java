@@ -4,16 +4,15 @@
  */
 package com.mycompany.projetpatron.Controller;
 
-import com.mycompany.projetpatron.Model.AbstractModeleEcoutable;
-import com.mycompany.projetpatron.Model.Cercle;
-import com.mycompany.projetpatron.Model.GroupeForme;
-import com.mycompany.projetpatron.Model.Point;
+import java.awt.event.MouseEvent;
+
 import com.mycompany.projetpatron.Controller.Command.Command;
 import com.mycompany.projetpatron.Controller.Command.CommandAjoutForme;
 import com.mycompany.projetpatron.Controller.Command.GestionnaireCommandes;
-import java.awt.Graphics;
-import java.awt.event.MouseEvent;
-
+import com.mycompany.projetpatron.Model.AbstractModeleEcoutable;
+import com.mycompany.projetpatron.Model.Cercle;
+import com.mycompany.projetpatron.Model.JeuFormes;
+import com.mycompany.projetpatron.Model.Point;
 /**
  *
  * @author tsitana251
@@ -23,7 +22,13 @@ public class EtatCreationCercle extends AbstractModeleEcoutable implements VueCo
     private Point rayonPoint;
     private double rayon;
     private int cercleDone = 0;
-    public GroupeForme formes = new GroupeForme();
+    private JeuFormes jeu;
+
+    
+    public EtatCreationCercle(JeuFormes jeu) {  
+        this.jeu = jeu;
+    }
+
 
     @Override
     public void mouseClicked(MouseEvent me) {
@@ -43,14 +48,15 @@ public class EtatCreationCercle extends AbstractModeleEcoutable implements VueCo
         
         if(cercleDone == 1){
           System.out.println("creation nouveau cercle");
-             Cercle ancienCercle = new Cercle(centre, (int) rayon);
-             Command cmd = new CommandAjoutForme(formes, ancienCercle);
-             GestionnaireCommandes.getInstance().executerCommande(cmd);
-             centre = null;
-             rayon = 0.0;
-             cercleDone=0;
-             fireChangement();
-         }
+            Cercle ancienCercle = new Cercle(centre, (int) rayon);
+            ancienCercle.couleur = "BLEU";
+            Command cmd = new CommandAjoutForme(jeu.getFormesDuJoueur(), ancienCercle);
+            GestionnaireCommandes.getInstance().executerCommande(cmd);
+            centre = null;
+            rayon = 0.0;
+            cercleDone=0;
+            jeu.notifierVue();
+        }
     }
 
     

@@ -4,8 +4,9 @@
 
 package com.mycompany.projetpatron;
 
+import com.mycompany.projetpatron.Controller.EtatCreationCercle;
+import com.mycompany.projetpatron.Controller.EtatCreationRectangle;
 import com.mycompany.projetpatron.Controller.VueControlleurJeu;
-import com.mycompany.projetpatron.Controller.VueControlleurState;
 import com.mycompany.projetpatron.Model.JeuFormes;
 import com.mycompany.projetpatron.Model.Strategy.FormeRandomStrategy;
 import com.mycompany.projetpatron.View.FenetreGlobale;
@@ -17,16 +18,19 @@ import com.mycompany.projetpatron.View.FenetreGlobale;
 public class ProjetPatron {
 
    public static void main(String[] args) {
+      int borneMaxX= 600;
+      int borneMaxY = 500;
+
       System.out.println("___Project Start____");
 
       JeuFormes jeu = new JeuFormes();
       jeu.setGenerationStrategy(new FormeRandomStrategy(7));
-      jeu.demarrerPartie(600, 500);
+      jeu.demarrerPartie(borneMaxX,borneMaxY);
 
       VueControlleurJeu controleur = new VueControlleurJeu();
-      VueControlleurState etatCercle = controleur.etatCreationCercle;
-      VueControlleurState etatRect = controleur.etatCreationRectangle;
+      EtatCreationCercle etatCercle = new EtatCreationCercle(jeu);
+      EtatCreationRectangle etatRect = new EtatCreationRectangle(jeu);
 
-      new FenetreGlobale(controleur,etatCercle,etatRect,jeu);
+      new FenetreGlobale(controleur,etatCercle,etatRect,jeu,borneMaxX,borneMaxY);
    }
 }

@@ -23,7 +23,6 @@ import com.mycompany.projetpatron.Controller.EtatCreationRectangle;
 import com.mycompany.projetpatron.Controller.VueControlleurJeu;
 import com.mycompany.projetpatron.Controller.VueControlleurState;
 import com.mycompany.projetpatron.Model.JeuFormes;
-
 /**
  *
  * @author tsitana251
@@ -38,19 +37,29 @@ public class FenetreGlobale extends JFrame implements ActionListener{
     private JButton bouttonValider;   
     private JButton bouttonQuitter;   
     private JLabel drawArea;
+    private JLabel labelScore; 
+    private JeuFormes jeu;
+    private int borneMaxX;
+    private int borneMaxY;
     
     public VueControlleurState etatCreationCercle;
     public VueControlleurState etatCreationRectangle;
     public VueControlleurState etatSuppressionForme;
     public VueControlleurState etatDeplacementForme;
     
-    public FenetreGlobale(VueControlleurJeu controlleurJeu, VueControlleurState etatCreationCercle, VueControlleurState etatCreationRectangle,JeuFormes jeu){
+    public FenetreGlobale(VueControlleurJeu controlleurJeu, VueControlleurState etatCreationCercle, VueControlleurState etatCreationRectangle,JeuFormes jeu,int largeur, int hauteur){
         this.controlleurJeu = controlleurJeu;
         this.etatCreationCercle = etatCreationCercle;
         this.etatCreationRectangle = etatCreationRectangle;
+        this.jeu = jeu;
+        this.borneMaxX= largeur; 
+        this.borneMaxY = hauteur;
         JFrame frame = new JFrame("panel");
         JPanel ButtonContainer = new JPanel(); 
-        
+        labelScore = new JLabel("Espace libre rempli : 0%");
+        labelScore.setForeground(Color.BLUE);
+        ButtonContainer.add(labelScore);
+
         JPanel drawArea = new JPanel();
         drawArea.setPreferredSize(new Dimension(DIM, DIM-100)); // Donne une taille au JPanel
         drawArea.setBackground(Color.WHITE); // Fond rouge pour drawArea
@@ -93,9 +102,11 @@ public class FenetreGlobale extends JFrame implements ActionListener{
         frame.setSize(DIM, DIM);
         frame.show();
     }
+    
 
     @Override
     public void actionPerformed(ActionEvent ae) {
+
         if(ae.getSource() == bouttonCercle){
             controlleurJeu.setEtatCourant(etatCreationCercle);    
         }
@@ -110,9 +121,17 @@ public class FenetreGlobale extends JFrame implements ActionListener{
         }
         if (ae.getSource() == bouttonValider) {
             JOptionPane.showMessageDialog(null, "Score validé !");
+            rafraichirScore();
         }
         if (ae.getSource() == bouttonQuitter) {
             System.exit(0);
         }
+    }
+
+   private void rafraichirScore() {
+    int score = jeu.calculerPourcentage(borneMaxX, borneMaxY);
+    labelScore.setText("Espace libre rempli : " + score + "%");
+    JOptionPane.showMessageDialog(this,
+        "Yess!!! Vous avez rempli " + score + "% de l'espace disponible.");
     }
 }
