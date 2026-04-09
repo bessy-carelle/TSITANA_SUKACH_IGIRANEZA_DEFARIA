@@ -13,6 +13,7 @@ import com.mycompany.projetpatron.Model.AbstractModeleEcoutable;
 import com.mycompany.projetpatron.Model.JeuFormes;
 import com.mycompany.projetpatron.Model.Point;
 import com.mycompany.projetpatron.Model.Rectangle;
+import com.mycompany.projetpatron.Model.Strategy.FormeJoueurStrategy;
 
 /**
  *
@@ -25,6 +26,10 @@ public class EtatCreationRectangle extends AbstractModeleEcoutable implements Vu
     private int rectangleDone = 0;
     private double diagonale;
     private JeuFormes jeu;
+    private FormeJoueurStrategy strategie;
+
+    public void setJeu(JeuFormes jeu) { this.jeu = jeu; }
+    public void setStrategie(FormeJoueurStrategy s) { this.strategie = s; }
 
     public EtatCreationRectangle(JeuFormes jeu) { 
         this.jeu = jeu;
@@ -70,9 +75,15 @@ public class EtatCreationRectangle extends AbstractModeleEcoutable implements Vu
         if(rectangleDone == 1){
           System.out.println("creation nouveau rect");
              Rectangle ancienRectangle = new Rectangle(coinRectangle, largeur, hauteur);
-             ancienRectangle.couleur = "BLEU";
-             Command cmd = new CommandAjoutForme(jeu.getFormesDuJoueur(), ancienRectangle);             
-             GestionnaireCommandes.getInstance().executerCommande(cmd);
+             if (jeu != null && jeu.isModeDeuxJoueurs()
+                && jeu.getPhase() == JeuFormes.Phase.JOUEUR1_PLACE_ROUGE) {
+                ancienRectangle.couleur = "ROUGE";
+                strategie.ajouterForme(ancienRectangle);
+                } else {
+                ancienRectangle.couleur = "BLEU";
+                Command cmd = new CommandAjoutForme(jeu.getFormesDuJoueur(), ancienRectangle);
+                GestionnaireCommandes.getInstance().executerCommande(cmd);
+             }            
              coinRectangle = null;
              largeur = 0;
              hauteur=0;

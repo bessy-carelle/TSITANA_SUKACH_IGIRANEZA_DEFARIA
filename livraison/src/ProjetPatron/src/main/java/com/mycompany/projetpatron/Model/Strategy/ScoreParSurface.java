@@ -7,6 +7,13 @@ import com.mycompany.projetpatron.Model.Rectangle;
 
 public class ScoreParSurface implements CalculScore {
     private static final int MAX_FORMES = 4;
+    private int surfaceTotale = 1;
+
+    public void setSurfaceTotale(int surface) {
+        this.surfaceTotale = surface;
+    }
+    
+    
     @Override
     public double calculer(GroupeForme formesBleues, GroupeForme formesRouges) {
         double score = 0;
@@ -33,11 +40,43 @@ public class ScoreParSurface implements CalculScore {
         return score;
     }
 
-
+    public double calculerPourcentage(GroupeForme formesBleues, GroupeForme formesRouges) {
+        double surfaceValide = 0;
+        for (Forme bleue : formesBleues.getFormes()) {
+            if (!bleue.active) continue;
+            boolean enCollision = false;
+            for (Forme rouge : formesRouges.getFormes()) {
+                if (collision(bleue, rouge)) {
+                    enCollision = true;
+                    break;
+                }
+            }
+            if (!enCollision) surfaceValide += surface(bleue);
+        }
+        return (surfaceValide / (double) surfaceTotale) * 100.0;
+    }
+    
     public String calculerResultat(GroupeForme formesBleues, GroupeForme formesRouges) {
         int valides = (int) calculer(formesBleues, formesRouges);
         int total = Math.min(4, (int) formesBleues.getFormes().stream().filter(f -> f.active).count());
-        return valides + "/" + total + " formes bien placées";
+
+        
+        double surfaceValide = 0;
+        for (Forme bleue : formesBleues.getFormes()) {
+            if (!bleue.active) continue;
+            boolean enCollision = false;
+            for (Forme rouge : formesRouges.getFormes()) {
+                if (collision(bleue, rouge)) {
+                    enCollision = true;
+                    break;
+                }
+            }
+            if (!enCollision) {
+                surfaceValide += surface(bleue);
+            }
+        }
+
+        return valides + "/" + total + " formes bien placees" + "\nSurface couverte : " + String.format("%.1f", (surfaceValide / (double) this.surfaceTotale) * 100) + "%";
     }
 
    

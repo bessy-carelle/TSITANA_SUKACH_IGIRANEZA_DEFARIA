@@ -24,6 +24,10 @@ import com.mycompany.projetpatron.Controller.EtatCreationRectangle;
 import com.mycompany.projetpatron.Controller.VueControlleurJeu;
 import com.mycompany.projetpatron.Controller.VueControlleurState;
 import com.mycompany.projetpatron.Model.JeuFormes;
+import com.mycompany.projetpatron.Model.Strategy.FormeJoueurStrategy;
+import com.mycompany.projetpatron.Model.Strategy.ScoreParSurface;
+
+
 /**
  *
  * @author tsitana251
@@ -42,12 +46,16 @@ public class FenetreGlobale extends JFrame implements ActionListener{
     private JeuFormes jeu;
     private int borneMaxX;
     private int borneMaxY;
+    private JButton bouttonMode2J;
+    private FormeJoueurStrategy strategieJoueur1 = new FormeJoueurStrategy();
+    private boolean modeDeuxJoueursActif = false;
 
     public VueJeu2D vueJeu2D;
     public VueControlleurState etatCreationCercle;
     public VueControlleurState etatCreationRectangle;
     public VueControlleurState etatSuppressionForme;
     public VueControlleurState etatDeplacementForme;
+    
     
     public FenetreGlobale(VueControlleurJeu controlleurJeu, VueControlleurState etatCreationCercle, VueControlleurState etatCreationRectangle,JeuFormes jeu){
         this.controlleurJeu = controlleurJeu;
@@ -71,6 +79,8 @@ public class FenetreGlobale extends JFrame implements ActionListener{
         drawArea.add(this.vueJeu2D, BorderLayout.CENTER); 
         //frame.add(drawArea, BorderLayout.SOUTH);
         frame.add(drawArea, BorderLayout.CENTER);
+        
+        GestionnaireCommandes.getInstance().setJeu(jeu);
         
         drawArea.addMouseListener(controlleurJeu);
         drawArea.addMouseMotionListener(controlleurJeu); 
@@ -99,6 +109,9 @@ public class FenetreGlobale extends JFrame implements ActionListener{
         bouttonValider.addActionListener(this);
         bouttonQuitter.addActionListener(this);
         
+        bouttonMode2J = new JButton("Mode 2J");
+        ButtonContainer.add(bouttonMode2J);
+        bouttonMode2J.addActionListener(this);
     
         frame.setSize(DIM, DIM);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -112,6 +125,7 @@ public class FenetreGlobale extends JFrame implements ActionListener{
             System.out.println("Taille réelle VueJeu2D : " + largeur + "x" + hauteur);
             this.borneMaxX = largeur;
             this.borneMaxY = hauteur;
+            ((ScoreParSurface) jeu.getCalculScore()).setSurfaceTotale(largeur * hauteur);
             jeu.demarrerPartie(largeur, hauteur);
         });
     }
@@ -139,48 +153,57 @@ public class FenetreGlobale extends JFrame implements ActionListener{
         }
 
         if (ae.getSource() == bouttonValider) {
-            int scorePartie = (int) jeu.calculerScore();
-            boolean fin = jeu.validerPartie(borneMaxX, borneMaxY);
-
-            if (fin) {
-                StringBuilder recap = new StringBuilder();
-                recap.append("=== PARTIE TERMINÉE ===\n\n");
-
-                List<Integer> scores = jeu.getScores();
-                for (int i = 0; i < scores.size(); i++) {
-                    recap.append("Partie ").append(i + 1)
-                        .append(" : ").append(scores.get(i)).append("/4\n");
-
-                    if (scores.get(i) == 4) recap.append("Top! Toutes les formes bien placées!!");
-                    else if (scores.get(i) == 0) recap.append("Raté!!");
-                    recap.append("\n");
-                }
-                recap.append("\n─────────────────────\n");
-                recap.append("Score global : ").append(jeu.getMoyennePourcentage()).append("%\n");
-
-                recap.append("Moyenne : ")
-                    .append(String.format("%.1f", jeu.getMoyenne())).append("/4");
-                
-                JOptionPane.showMessageDialog(this, recap.toString(), 
-                    "Résultats finaux", JOptionPane.INFORMATION_MESSAGE);
-                labelScore.setText("Score global : " + jeu.getMoyennePourcentage() + "%");
-
+            if (modeDeuxJoueursActif 
+                    && jeu.getPhase() == JeuFormes.Phase.JOUEUR1_PLACE_ROUGE) {
+                strategieJoueur1.valider();
+                jeu.joueur1Valide(vueJeu2D.getWidth(), vueJeu2D.getHeight());
+                JOptionPane.showMessageDialog(this,"Joueur 2 : place tes formes BLEUES pour marquer des points !");
             } else {
-                String msg = "Partie " + jeu.getNumeroPartie() + "/" + jeu.getTotalParties() + "\n" +
-                            "Score : " + scorePartie + "/4 formes valides\n\n" +
-                            "Prochaine partie...";
-                JOptionPane.showMessageDialog(this, msg,
-                    "Score partie " + jeu.getNumeroPartie(), JOptionPane.INFORMATION_MESSAGE);
-                
-                
-                labelScore.setText("Partie " + (jeu.getNumeroPartie() + 1) + 
-                                "/" + jeu.getTotalParties() +
-                                "  |  Dernier score : " + scorePartie + "/4");
-                
-                jeu.demarrerPartie(vueJeu2D.getWidth(), vueJeu2D.getHeight());
+                int scorePartie = (int) jeu.calculerScore();
+                boolean fin = jeu.validerPartie(borneMaxX, borneMaxY);
+
+                if (fin) {
+                    StringBuilder recap = new StringBuilder();
+                    recap.append("=== PARTIE TERMINEE ===\n\n");
+                    List<Integer> scores = jeu.getScores();
+                    List<Double> pourcentages = jeu.getPourcentages();
+                    for (int i = 0; i < scores.size(); i++) {
+                        recap.append("Partie ").append(i + 1)
+                            .append(" : ").append(scores.get(i)).append("/4")
+                            .append(" - ").append(String.format("%.1f", pourcentages.get(i))).append("%\n");
+                        if (scores.get(i) == 4) recap.append("Top! Toutes les formes bien placees!!\n");
+                        else if (scores.get(i) == 0) recap.append("Rate!!\n");
+                    }
+                    double moyenne = pourcentages.stream().mapToDouble(d -> d).average().orElse(0);
+                    recap.append("\n─────────────────────\n");
+                    recap.append("Score global : ").append(String.format("%.1f", moyenne)).append("%");
+                    JOptionPane.showMessageDialog(this, recap.toString(), 
+                        "Resultats finaux", JOptionPane.INFORMATION_MESSAGE);
+                    labelScore.setText("Score global : " + String.format("%.1f", moyenne) + "%");
+
+                } else {
+                    String msg = "Partie " + jeu.getNumeroPartie() + "/" + jeu.getTotalParties() + "\n" +
+                                "Score : " + scorePartie + "/4 formes valides\n\n" + jeu.calculerResultat() + "\n\n" +
+                                "Prochaine partie...";
+                    JOptionPane.showMessageDialog(this, msg,
+                        "Score partie " + jeu.getNumeroPartie(), JOptionPane.INFORMATION_MESSAGE);
+
+                    labelScore.setText("Partie " + (jeu.getNumeroPartie() + 1) + 
+                                    "/" + jeu.getTotalParties() +
+                                    "  |  Dernier score : " + scorePartie + "/4");
+
+                    jeu.demarrerPartie(vueJeu2D.getWidth(), vueJeu2D.getHeight());
+                }
             }
-    
-      
+        }
+        if (ae.getSource() == bouttonMode2J) {
+            modeDeuxJoueursActif = true;
+            jeu.activerModeDeuxJoueurs(strategieJoueur1);
+            ((EtatCreationCercle) etatCreationCercle).setJeu(jeu);
+            ((EtatCreationCercle) etatCreationCercle).setStrategie(strategieJoueur1);
+            ((EtatCreationRectangle) etatCreationRectangle).setJeu(jeu);
+            ((EtatCreationRectangle) etatCreationRectangle).setStrategie(strategieJoueur1);
+            JOptionPane.showMessageDialog(this,"Mode 2 joueurs !\nJoueur 1 : dessine les zones ROUGES\nClique Valider quand tu as fini.");
         }
     }
 }

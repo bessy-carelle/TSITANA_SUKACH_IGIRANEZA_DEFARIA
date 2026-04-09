@@ -5,8 +5,7 @@
 package com.mycompany.projetpatron.Controller.Command;
 
 import java.util.Stack;
-import com.mycompany.projetpatron.Model.Forme;
-import com.mycompany.projetpatron.Model.GroupeForme;
+import com.mycompany.projetpatron.Model.JeuFormes;
 
 /**
  *
@@ -16,6 +15,11 @@ public class GestionnaireCommandes {
     private static GestionnaireCommandes instance;
     private Stack<Command> historiqueUndo = new Stack<>();
     private Stack<Command> historiqueRedo = new Stack<>();
+    private JeuFormes jeu;
+
+    public void setJeu(JeuFormes jeu) {
+        this.jeu = jeu;
+    }
 
     private GestionnaireCommandes() {}
 

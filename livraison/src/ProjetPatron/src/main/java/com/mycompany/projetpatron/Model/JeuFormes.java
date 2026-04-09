@@ -12,6 +12,8 @@ import javax.swing.Timer;
 import com.mycompany.projetpatron.Model.Strategy.CalculScore;
 import com.mycompany.projetpatron.Model.Strategy.GenerationStrategy;
 import com.mycompany.projetpatron.Model.Strategy.ScoreParSurface;
+import com.mycompany.projetpatron.Model.Strategy.FormeJoueurStrategy;
+
 
 
 public class JeuFormes extends AbstractModeleEcoutable {
@@ -22,11 +24,15 @@ public class JeuFormes extends AbstractModeleEcoutable {
     private Timer timerObstacles;
     private CalculScore calculScore = new ScoreParSurface(); 
 
-    // jeu en 10 parties 
     private int numPartie = 0;
     private static final int TOTAL_PARTIES = 4;
     private List<Integer> scores = new ArrayList<>(); 
+    private List<Double> pourcentages = new ArrayList<>();
 
+    public CalculScore getCalculScore() {
+        return calculScore;
+    }
+    
     public JeuFormes(){
         this.formesJoueur = new GroupeForme();
         this.obstacles = new GroupeForme();
@@ -65,10 +71,17 @@ public class JeuFormes extends AbstractModeleEcoutable {
 
      public boolean validerPartie(int borneMaxX, int borneMaxY) {
         int score = (int) calculerScore();
+        double pourcentage = ((ScoreParSurface) calculScore).calculerPourcentage(formesJoueur, obstacles);
         scores.add(score);
+        pourcentages.add(pourcentage);
         fireChangement();
+        if (modeDeuxJoueurs) return true;
         return numPartie >= TOTAL_PARTIES;
     }
+     
+    public List<Double> getPourcentages() {
+        return pourcentages;
+    } 
 
     public double calculerScore() {
         return calculScore.calculer(formesJoueur, obstacles);
@@ -93,18 +106,47 @@ public class JeuFormes extends AbstractModeleEcoutable {
         return (int) Math.floor((scoreTotal / (double) scoreMax) * 100);
     }
 
-public int getNumeroPartie() { 
-        return numPartie; 
-    }
-    public int getTotalParties() { 
-        return TOTAL_PARTIES; 
-    }
-    public List<Integer> getScores() { 
-        return scores; 
-    
-    }
+    public int getNumeroPartie() { 
+            return numPartie; 
+        }
+        public int getTotalParties() { 
+            return TOTAL_PARTIES; 
+        }
+        public List<Integer> getScores() { 
+            return scores; 
 
-    public void notifierVue() {
+        }
+
+        public void notifierVue() {
+            fireChangement();
+        }
+
+        
+    public enum Phase { JOUEUR1_PLACE_ROUGE, JOUEUR2_PLACE_BLEU }
+
+    private Phase phaseActuelle = Phase.JOUEUR1_PLACE_ROUGE;
+    private boolean modeDeuxJoueurs = false;
+
+    public void activerModeDeuxJoueurs(FormeJoueurStrategy strategie) {
+        this.modeDeuxJoueurs = true;
+        this.generationStrategy = strategie;
+        this.phaseActuelle = Phase.JOUEUR1_PLACE_ROUGE;
+        this.formesJoueur = new GroupeForme();
+        this.obstacles = strategie.getFormesDessinee();
         fireChangement();
     }
+
+    public Phase getPhase() { return phaseActuelle; }
+    public boolean isModeDeuxJoueurs() { return modeDeuxJoueurs; }
+
+    public void joueur1Valide(int borneMaxX, int borneMaxY) {
+        // les formes rouges sont prêtes, on passe au joueur 2
+        phaseActuelle = Phase.JOUEUR2_PLACE_BLEU;
+        this.obstacles = generationStrategy.generer(borneMaxX, borneMaxY);
+        this.formesJoueur = new GroupeForme();
+        fireChangement();
+    }
+
 }
+
+    

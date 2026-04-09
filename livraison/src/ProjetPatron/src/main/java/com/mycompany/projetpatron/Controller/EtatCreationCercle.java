@@ -13,6 +13,9 @@ import com.mycompany.projetpatron.Model.AbstractModeleEcoutable;
 import com.mycompany.projetpatron.Model.Cercle;
 import com.mycompany.projetpatron.Model.JeuFormes;
 import com.mycompany.projetpatron.Model.Point;
+import com.mycompany.projetpatron.Model.Strategy.FormeJoueurStrategy;
+
+
 /**
  *
  * @author tsitana251
@@ -23,7 +26,11 @@ public class EtatCreationCercle extends AbstractModeleEcoutable implements VueCo
     private double rayon;
     private int cercleDone = 0;
     private JeuFormes jeu;
+    private FormeJoueurStrategy strategie;
 
+    public void setJeu(JeuFormes jeu) { this.jeu = jeu; }
+    public void setStrategie(FormeJoueurStrategy s) { this.strategie = s; }
+    
     
     public EtatCreationCercle(JeuFormes jeu) {  
         this.jeu = jeu;
@@ -49,16 +56,21 @@ public class EtatCreationCercle extends AbstractModeleEcoutable implements VueCo
         if(cercleDone == 1){
           System.out.println("creation nouveau cercle");
             Cercle ancienCercle = new Cercle(centre, (int) rayon);
-            ancienCercle.couleur = "BLEU";
-            Command cmd = new CommandAjoutForme(jeu.getFormesDuJoueur(), ancienCercle);
-            GestionnaireCommandes.getInstance().executerCommande(cmd);
+            if (jeu != null && jeu.isModeDeuxJoueurs() 
+                && jeu.getPhase() == JeuFormes.Phase.JOUEUR1_PLACE_ROUGE) {
+                ancienCercle.couleur = "ROUGE";
+                strategie.ajouterForme(ancienCercle);
+                } else {
+                    ancienCercle.couleur = "BLEU";
+                    Command cmd = new CommandAjoutForme(jeu.getFormesDuJoueur(), ancienCercle);
+                    GestionnaireCommandes.getInstance().executerCommande(cmd);
+                }
             centre = null;
             rayon = 0.0;
             cercleDone=0;
             jeu.notifierVue();
         }
     }
-
     
     @Override
     public void mouseMoved(MouseEvent me){
