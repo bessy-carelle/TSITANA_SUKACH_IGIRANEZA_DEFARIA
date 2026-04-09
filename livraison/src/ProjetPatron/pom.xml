@@ -10,4 +10,19 @@
         <maven.compiler.release>21</maven.compiler.release>
         <exec.mainClass>com.mycompany.projetpatron.ProjetPatron</exec.mainClass>
     </properties>
+    <build>
+        <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <configuration>
+            <archive>
+                <manifest>
+                <mainClass>com.mycompany.projetpatron.ProjetPatron</mainClass>
+                </manifest>
+            </archive>
+            </configuration>
+        </plugin>
+        </plugins>
+    </build>
 </project>

@@ -1,1 +1,2 @@
-
+Pour executer le .jar fichier:
+java -jar TSITANA_SUKACH_IGIRANEZA_DEFARIA/TSITANA_SUKACH_IGIRANEZA_DEFARIA.jar
