@@ -1,20 +1,22 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.projetpatron.Model;
 
 /**
- *
- * @author tsitana251
+ * Classe abstraite représentant une forme dans le modèle.
+ * <p>
+ * Une forme possède une couleur et un état d'activation.
+ * Elle hérite de {@link AbstractModeleEcoutable} pour permettre l'observation des changements.
+ * </p>
  */
-
-public abstract class Forme extends AbstractModeleEcoutable{
+public abstract class Forme extends AbstractModeleEcoutable {
     public boolean active = true;
     public String couleur;
-    // pas de couleur ici
-    
-    public Forme(String couleur){
+
+    /**
+     * Constructeur de la classe Forme.
+     *
+     * @param couleur la couleur initiale de la forme
+     */
+    public Forme(String couleur) {
         this.couleur = couleur;
     }
 }

@@ -1,0 +1,6 @@
+com.mycompany.projetpatron
+com.mycompany.projetpatron.Controller
+com.mycompany.projetpatron.Controller.Command
+com.mycompany.projetpatron.Model
+com.mycompany.projetpatron.Model.Strategy
+com.mycompany.projetpatron.View

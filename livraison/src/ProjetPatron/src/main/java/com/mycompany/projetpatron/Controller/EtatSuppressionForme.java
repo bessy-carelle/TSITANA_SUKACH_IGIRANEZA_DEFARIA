@@ -1,15 +1,14 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Ce classe n'est pas realisé
+ *
+ * @author tsitana251
+ * @version 1.0
  */
 package com.mycompany.projetpatron.Controller;
 
 import java.awt.event.MouseEvent;
 
-/**
- *
- * @author tsitana251
- */
+
 public class EtatSuppressionForme implements VueControlleurState{
 
     @Override

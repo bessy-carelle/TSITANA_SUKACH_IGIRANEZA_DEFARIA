@@ -1,15 +1,15 @@
 package com.mycompany.projetpatron.Model;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
-
 /**
- *
- * @author tsitana251
+ * Interface représentant un écouteur de modèle (pattern Observateur).
  */
 public interface EcouteurModele {
+
+    /**
+     * Méthode appelée lorsque le modèle est mis à jour.
+     *
+     * @param source le modèle ayant déclenché la mise à jour
+     */
     void modeleMisAJour(Object source);
-    
+
 }
